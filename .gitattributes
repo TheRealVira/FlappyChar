@@ -1,1 +1,2 @@
 *.dll linguist-vendored=false
+ncursesw6-config linguist-vendored=false
