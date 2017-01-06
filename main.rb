@@ -53,17 +53,23 @@ class Game
 	end
 	
 	#===============
-	#== UPDATEING ==
+	#== UPDATING ===
 	#===============
 	def update
+		# Update the tubes before the player
 		@tubes1.update(@cols, @rows)
 		
 		@tubes2.update(@cols, @rows)
 		
 		@player.update(@rows)
 		
+		# TODO: Think about a way to reduce duplicated code...
+		
+		# Check if the first obstacle is going to pass the player
 		if !@tubes1.passed && @tubes1.tubePosition < @cols / 2.0
+			# Does the player hit the obstacle?
 			if @tubes1.didHit(@rows - @player.position)
+				# If so, he dies.
 				@player.alive = false
 				return
 			end
@@ -72,11 +78,15 @@ class Game
 			@player.points = @player.points + 1
 		end
 		
+		# Check if the second obstacle is going to pass the player
 		if !@tubes2.passed && @tubes2.tubePosition < @cols / 2.0
+			# Does the player hit the obstacle?
 			if @tubes2.didHit(@rows - @player.position)
+				# If so, he dies.
 				@player.alive = false
 				return
 			end
+			
 			@tubes2.passed = true
 			@player.points = @player.points + 1
 		end
