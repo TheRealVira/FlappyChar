@@ -119,8 +119,3 @@ end
 puts "Starting game..."
 myGame = Game.new
 myGame.start
-
-# https://github.com/fazibear/colorize
-# https://github.com/ruby/curses
-# https://www.ruby-lang.org/en/downloads/
-# http://rubyinstaller.org/add-ons/devkit/
