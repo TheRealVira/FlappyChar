@@ -1,4 +1,5 @@
 language: ruby
+install: gem install curses
 rvm:
 - 2.0.0
 - 1.9.3
