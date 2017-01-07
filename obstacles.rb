@@ -26,10 +26,12 @@ class Tubes
 		while $i < rows - 1
 			$i = $i + 1
 			
-			if didHit($i)
-				Curses.setpos($i, @tubePosition)
-				Curses.addstr("00")
+			if $i.between?(@holeHeight, @holeHeight + @holeSize + 1)
+				next
 			end
+			
+			Curses.setpos($i, @tubePosition)
+			Curses.addstr("00")
 		end
 	end
 	
@@ -40,7 +42,7 @@ class Tubes
 	
 	# Resets the position of the tubes and assigns random values to the hole
 	def reset(cols, rows)
-		@holeSize = 4 + rand(2)
+		@holeSize = 3 + rand(2)
 		@holeHeight = rows / 4 + rand * (rows / 2)
 		@tubePosition = cols
 		@passed = false
