@@ -26,12 +26,10 @@ class Tubes
 		while $i < rows - 1
 			$i = $i + 1
 			
-			if $i.between?(@holeHeight, @holeHeight + @holeSize)
-				next
+			if didHit($i)
+				Curses.setpos($i, @tubePosition)
+				Curses.addstr("00")
 			end
-			
-			Curses.setpos($i, @tubePosition)
-			Curses.addstr("00")
 		end
 	end
 	

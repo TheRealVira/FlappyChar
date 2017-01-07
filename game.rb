@@ -53,7 +53,7 @@ class Game
 			# Check if the obstacle is going to pass the player
 			if !t.passed && t.tubePosition < @cols / 2.0
 				# Does the player hit the obstacle?
-				if t.didHit(@rows - @player.position)
+				if t.didHit(@rows - @player.position - 1)
 					# If so, he dies.
 					@player.alive = false
 					

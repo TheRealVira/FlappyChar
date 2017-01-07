@@ -20,7 +20,7 @@ class Player
 				@velocity = 1.35
 			end
 			
-			sleep(0.01)
+			sleep(0.001)
 		end
 	end
 	
@@ -38,7 +38,7 @@ class Player
 		end
 		
 		if @position > rows - 1
-			@position = rows
+			@position = rows - 1
 		end
 		
 		# Touching the floor flooded with lava is never good
