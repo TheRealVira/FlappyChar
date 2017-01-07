@@ -1,5 +1,5 @@
 task :default => [:test]
 
-
-
-Rake::ExtensionTask.new('flappyChar')
+task :test do
+  Dir.chdir "game"
+end
