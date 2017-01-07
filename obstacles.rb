@@ -43,7 +43,7 @@ class Tubes
 	# Resets the position of the tubes and assigns random values to the hole
 	def reset(cols, rows)
 		@holeSize = 4 + rand(2)
-		@holeHeight = rows/4 + rand(rows/2)
+		@holeHeight = rows / 4 + rand * (rows / 2)
 		@tubePosition = cols
 		@passed = false
 	end

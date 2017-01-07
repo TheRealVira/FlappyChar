@@ -5,7 +5,7 @@ class Player
 	# Initializes the player
 	def initialize(rows)
 		@alive = true
-		@position = rows/2
+		@position = rows / 2
 		@velocity = 0
 		@playerC = "W"
 		@points = 0
@@ -17,10 +17,10 @@ class Player
 	def inputR
 		while @alive
 			if shouldJump?
-				@velocity = 1
+				@velocity = 1.35
 			end
 			
-			sleep(1.0/100.0)
+			sleep(0.01)
 		end
 	end
 	
