@@ -1,4 +1,6 @@
 # FlappyChar
+![Tarvis CI Status](https://travis-ci.org/TheRealVira/FlappyChar.svg?branch=master)
+
 A "Flappy Bird" clone; reprogrammed with Ruby (runs on the terminal).
 
 ## Requirements
