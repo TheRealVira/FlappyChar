@@ -11,4 +11,5 @@ Gem::Specification.new { |s|
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rake-compiler'
+  s.add_development_dependency 'curses'
 }
