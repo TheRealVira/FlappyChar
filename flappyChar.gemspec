@@ -9,7 +9,5 @@ Gem::Specification.new { |s|
   s.required_ruby_version = Gem::Requirement.new('>= 2.1.0')
   s.licenses = ['Ruby', 'MIT']
   s.add_development_dependency 'bundler'
-  s.add_development_dependency 'rake'
   s.add_development_dependency 'rake-compiler'
-  s.add_development_dependency 'curses'
 }
