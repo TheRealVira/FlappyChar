@@ -1,4 +1,10 @@
 language: ruby
+sudo: required
+
+before_script:
+  - sudo apt-get --yes --forece-yes update -qq
+  - gem install curses
+
 rvm:
   - 2.1.10
   - 2.2.5
