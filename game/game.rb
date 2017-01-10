@@ -1,12 +1,13 @@
 # Represents the main game class
 class Game
-	attr_accessor :rows, :cols, :thxForPlaying, :tubes, :player, :mainGameThread, :lastHighscore
+	attr_accessor :rows, :cols, :thxForPlaying, :tubes, :player, :lastHighscore, :hCenter, :endedTheGame, :firstTimeDrawing
 	
 	# Starting routine
 	def start(highscore)
 		
 		@rows = Curses.lines
 		@cols = Curses.cols
+		@hCenter = @cols / 2.0
 		
 		@thxForPlaying = "Thx for playing!"
 		
@@ -19,12 +20,10 @@ class Game
 		@player = Player.new(@rows)
 		@lastHighscore = highscore + 0
 		
-		Thread.abort_on_exception = true
-		@mainGameThread = Thread.new{main}
-		@mainGameThread.join
-		@player.playerThread.join
+		@endedTheGame = false
+		@firstTimeDrawing = true
 		
-		Curses.clear
+		main
 	end
 	
 	# Main game loop logic routine
@@ -50,22 +49,29 @@ class Game
 			# Update the obstacle
 			t.update(@cols, @rows)
 			
-			# Check if the obstacle is going to pass the player
-			if !t.passed && t.tubePosition < @cols / 2.0
+			if t.passed
+				next
+			end
+			
+			# Check if the obstacle has passed
+			if t.tubePosition + t.tubeWidth < @hCenter
 				# Does the player hit the obstacle?
-				if t.didHit(@rows - @player.position - 1)
-					# If so, he dies.
-					@player.alive = false
-					
-					endGame
-					return
-				end
 				
 				t.passed = true
 				@player.points = @player.points + 1
 				
 				if @player.points > @lastHighscore
 					@lastHighscore = @player.points
+				end
+			# Check if the obstacle is passing
+			elsif t.tubePosition <= @hCenter && t.tubePosition + t.tubeWidth >= @hCenter
+				if t.didHit(@rows - @player.position - 1)
+					# If so, he dies.
+					
+					@player.alive = false
+					
+					endGame
+					return
 				end
 			end
 		end
@@ -77,26 +83,29 @@ class Game
 	#== DRAWING ==
 	#=============
 	def draw
-		# Clear the screen with a sky color
-		Curses.clear
-		Curses.attrset(Curses.color_pair(4) | Curses::A_NORMAL)
-		Curses.setpos(1, 0)
-		Curses.addstr((" " * @cols) * @rows)
+		if @firstTimeDrawing # Clear the screen with a sky color
+			@firstTimeDrawing = false
+			Curses.attrset(Curses.color_pair(4) | Curses::A_NORMAL)
+			Curses.setpos(1, 0)
+			Curses.addstr((" " * @cols) * @rows)
+		end
 		
 		# Draw all other elements
 		@player.draw(@cols, @rows)
 		
 		@tubes.each do |t|
-			t.draw(@rows)
+			t.draw(@rows, @cols)
 		end
 	end
 	
 	# Ending routine
 	def endGame
+		if @endedTheGame
+			return
+		end
+	
+		@endedTheGame = true
+		@player.inputWindow.close
 		myMenu = Menu.new(@lastHighscore)
-		
-		#exit threads
-		@player.playerThread.kill
-		@mainGameThread.kill
 	end
 end

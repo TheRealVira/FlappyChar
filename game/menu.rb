@@ -19,8 +19,9 @@ class Menu
 		
 		while ch = @menuWindow.getch
 			case ch
-			when ' '
+			when 's'
 				myGame = Game.new
+				@menuWindow.close
 				myGame.start(@highscore)
 				return
 			when 'x'
@@ -32,21 +33,24 @@ class Menu
 	
 	# Draws the main menu
 	def draw
-		@menuWindow.setpos(1, 10)
+		@menuWindow.setpos(1, 0)
 		@menuWindow.attrset(Curses::A_NORMAL)
 		
 		# FlappyChar
-		@menuWindow.addstr(" _____ _                 _____ _\n          |   __| |___ ___ ___ _ _|     | |_ ___ ___ \n          |   __| | .'| . | . | | |   --|   | .'|  _|\n          |__|  |_|__,|  _|  _|_  |_____|_|_|__,|_|  \n                      |_| |_| |___|                  ")
+		@menuWindow.addstr(" _____ _                 _____ _           ".center(Curses.cols))
+		@menuWindow.addstr("|   __| |___ ___ ___ _ _|     | |_ ___ ___ ".center(Curses.cols))
+		@menuWindow.addstr("|   __| | .'| . | . | | |   --|   | .'|  _|".center(Curses.cols))
+		@menuWindow.addstr("|__|  |_|__,|  _|  _|_  |_____|_|_|__,|_|  ".center(Curses.cols))
+		@menuWindow.addstr("            |_| |_| |___|                  ".center(Curses.cols))
 	
 		@menuWindow.setpos(Curses.lines / 2, 0)
-		@menuWindow.addstr("Press SPACE to start...".center(Curses.cols))
+		@menuWindow.addstr("Press 's' to start...".center(Curses.cols))
 		
 		@menuWindow.setpos(Curses.lines - 2, 0)
-		@menuWindow.addstr("Press 'x' to exit".center(Curses.cols))
+		@menuWindow.addstr("Press 'x' to exit   ".rjust(Curses.cols))
 		
 		@menuWindow.attrset(Curses::A_STANDOUT)
 		@menuWindow.setpos(Curses.lines - 2, 3)
 		@menuWindow.addstr("Highscore:  " + (@highscore.to_s))
-		
 	end
 end

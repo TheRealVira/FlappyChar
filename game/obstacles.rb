@@ -1,27 +1,45 @@
 # Represents the tubes (the obstacles, that the player has to avoid)
 class Tubes
-	attr_accessor :holeSize, :holeHeight, :tubePosition, :velocity, :passed
+	attr_accessor :holeSize, :holeHeight, :tubePosition, :lastPosition, :tubeWidth, :velocity, :passed, :dontDraw
 	
 	# Initializes the tubes
 	def initialize(cols, rows)
-		reset(cols, rows)
-		
 		@velocity = -1.5
+		@tubeWidth = 3
+		
+		@dontDraw = true
+		reset(cols, rows)
+		@dontDraw = false
 	end
 	
 	# Moves the tubes
 	def update(cols, rows)
+		@lastPosition = @tubePosition
 		@tubePosition = @tubePosition + @velocity
 		
-		if @tubePosition < 0
+		if @tubePosition < 1
+			@dontDraw = true
+			drawIntern(rows, cols, @lastPosition, true)
 			reset(cols, rows)
+			@dontDraw = false
 		end
 	end
 	
 	# Draws the tubes
-	def draw(rows)
+	def draw(rows, cols)
+		if @dontDraw
+			return
+		end
+		
+		drawIntern(rows, cols, @lastPosition, true)
+		drawIntern(rows, cols, @tubePosition, false)
+	end
+	
+	def drawIntern(rows, cols, pos, clear)
 		$i = 0
-		Curses.attrset(Curses.color_pair(1) | Curses::A_NORMAL)
+		$w = (pos + @tubeWidth > cols) ? (cols - pos + @tubeWidth) : @tubeWidth
+		
+		Curses.attrset(clear ? Curses.color_pair(4) : Curses.color_pair(1) | Curses::A_NORMAL)
 		
 		while $i < rows - 1
 			$i = $i + 1
@@ -30,8 +48,8 @@ class Tubes
 				next
 			end
 			
-			Curses.setpos($i, @tubePosition)
-			Curses.addstr("00")
+			Curses.setpos($i, pos)
+			Curses.addstr(clear ? " " * $w : "0" * $w)
 		end
 	end
 	
@@ -44,7 +62,8 @@ class Tubes
 	def reset(cols, rows)
 		@holeSize = 3 + rand(2)
 		@holeHeight = rows / 4 + rand * (rows / 2)
-		@tubePosition = cols
+		@tubePosition = cols - 1
+		@lastPosition = @tubePosition
 		@passed = false
 	end
 end

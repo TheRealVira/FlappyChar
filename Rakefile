@@ -6,4 +6,5 @@ task :test do
   ruby "menu.rb"
   ruby "obstacles.rb"
   ruby "player.rb"
+  ruby "getKey.rb"
 end
